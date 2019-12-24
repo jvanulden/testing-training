@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS avg_losses_mean_merge_contents;
+
+SELECT A.id,
+d.number,
+d.lon,
+d.lat,
+A.s0_contents,
+
+B.s1_contents,
+C.s2_contents,
+A.s0_contents + B.s1_contents + C.s2_contents AS "contents_combined"
+
+--INTO avg_losses_mean_merge_contents
+
+FROM avg_losses_mean_merge_baseline A
+INNER JOIN avg_losses_mean_merge_scenario1 B ON A.id = B.id
+INNER JOIN avg_losses_mean_merge_scenario2 C ON A.id = C.id
+RIGHT JOIN canada_exposure D ON A.id = D.id
+
+WHERE D.SAUID LIKE '59%'
+LIMIT 1000;
